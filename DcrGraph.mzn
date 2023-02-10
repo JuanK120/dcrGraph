@@ -57,13 +57,16 @@ var int: lastEvent;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % lastEvent is the last event of a trace
-constraint forall(index in 1..K-1)(if trace[index]!=0 /\ trace[index+1]=0 then lastEvent=index else lastEvent=K endif);
+constraint forall(index in 1..K-1)(if trace[index]!=0 /\ trace[index+1]==0 then lastEvent==index else lastEvent==K endif);
 
 % trace[i] must ve a value of the enum E or 0
 constraint forall(index in 1..K)(trace[index]>=0 /\ trace[index]<=lenE);
 
 % if trace[i] is 0 then trace[i+1] is 0
-constraint forall(index in 1..K-1)(if trace[index]=0 then trace[index+1]=0 endif);
+constraint forall(index in 1..K-1)(if trace[index]==0 then trace[index+1]==0 endif);
+
+% if trace[i] is 0 then M[i+1] matrix is all false
+constraint forall(index in 1..K-1)(if trace[index]==0 then forall(i in 1..3,j in 1..lenE)(M[index,i,j]==false) endif);
 
 % enabled events, where Event is included and all preconditions have already been executed
 constraint forall(indexI in 1..3,indexJ in 1..lenE)(M[1,indexI,indexJ]=InitialM[indexI,indexJ]);
@@ -72,8 +75,28 @@ constraint forall(index in 1..K)(if trace[index] != 0 then M[index,2,trace[index
                                     forall(i in 1..numConditions where conditions[i,2]==M[index,2,trace[index]])(
                                            M[index,1,i]== true
                                            ) endif);
-% marking Transitions
+%%% marking Transitions %%%
 
+%add i-th executed event to executed events on marking M[i]
+constraint forall(i in 2..+1)(if trace[i] !=0 then M[i,1,trace[i-1]] == true endif);
+
+%add responses trigered by executing the i-th event
+constraint forall(index in 2..K+1)(if trace[index] != 0 then 
+                                    forall(i in 1..numResponses where responses[i,1]==trace[index-1])(
+                                           M[index,3,i]== true
+                                           ) endif);
+
+%add exclusions trigered by executing the i-th event
+constraint forall(index in 2..K+1)(if trace[index] != 0 then 
+                                    forall(i in 1..numExclusions where exclusions[i,1]==trace[index-1])(
+                                           M[index,2,i]== false
+                                           ) endif);
+
+%add inclusions trigered by executing the i-th event
+constraint forall(index in 2..K+1)(if trace[index] != 0 then 
+                                    forall(i in 1..numInclusions where inclusions[i,1]==trace[index-1])(
+                                           M[index,2,i]== true
+                                           ) endif);                                         
 
 % Accepting marking
 constraint forall(index in 1..lenE)(not(M[lastEvent,2,index]==true /\ M[lastEvent,3,index]==true));
