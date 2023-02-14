@@ -1,0 +1,44 @@
+e = {evnt1,evnt2,evnt3,evnt4,evnt5,evnt6,evnt7,evnt8,evnt9,evnt10};
+lenE =10;
+InitialM =[
+    false,true,false|
+    false,true,false|
+    false,true,false|
+    false,true,false|
+    false,true,false|
+    false,true,false|
+    false,true,false|
+    false,true,false|
+    false,true,false|
+
+];
+Act ={CphToLhr,CphToMad,MadToLhr,LhrToMia,LhrToJfk,MiaToClo,MiaToPty,PtyToClo,JfkToBog,BogToClo};
+lenAct =10;
+numConditions =7;
+conditions = [
+    |
+    |
+    |
+    |
+    |
+    |
+    |
+];
+numResponses =1;
+responses =[];
+numInclusions =6;
+inclusions =;
+numExclusions =26;
+exclusions =;
+l =[
+    |
+    |
+    |
+    |
+    |
+    |
+    |
+    |
+    |
+    |
+];
