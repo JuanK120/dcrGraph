@@ -1,0 +1,79 @@
+events = {dummyEv,evnt1,evnt2,evnt3,evnt4,evnt5,evnt6,evnt7,evnt8,evnt9,evnt10};
+%lenE =10;
+InitialM =[|
+    false,false,false|
+    false,true,false|
+    false,true,false|
+    false,true,false|
+    false,true,false|
+    false,true,false|
+    false,true,true|
+    false,true,false|
+    false,false,true|
+    false,true,false|
+    false,false,true
+|];
+Act ={dummyAct,CphToLhr,CphToMad,MadToLhr,LhrToMia,LhrToJfk,MiaToClo,MiaToPty,PtyToClo,JfkToBog,BogToClo};
+%lenAct =10;
+numConditions =10;
+conditions =  [|
+    evnt1,evnt4|
+    evnt1,evnt5|
+    evnt2,evnt3|
+    evnt3,evnt4|
+    evnt3,evnt5|
+    evnt5,evnt9|
+    evnt4,evnt6|
+    evnt4,evnt7|
+    evnt7,evnt8|
+    evnt9,evnt10
+|];
+numResponses =2;
+responses =[|
+    evnt2,evnt6 |
+    evnt5,evnt9         
+|];
+numInclusions =9;
+inclusions =[|
+    evnt1,evnt4|
+    evnt1,evnt5|
+    evnt3,evnt4|
+    evnt3,evnt5|
+    evnt5,evnt9|
+    evnt4,evnt6|
+    evnt4,evnt7|
+    evnt7,evnt8|
+    evnt9,evnt10
+|];
+numExclusions =26;
+exclusions =[|
+    evnt1,evnt1|
+    evnt2,evnt2|
+    evnt3,evnt3|
+    evnt4,evnt4|
+    evnt5,evnt5|
+    evnt6,evnt6|
+    evnt7,evnt7|
+    evnt8,evnt8|
+    evnt9,evnt9|
+    evnt10,evnt10|
+    evnt1,evnt2|
+    evnt2,evnt1|
+    evnt1,evnt3|
+    evnt4,evnt5|
+    evnt5,evnt4|
+    evnt5,evnt6|
+    evnt5,evnt7|
+    evnt4,evnt9|
+    evnt6,evnt7|
+    evnt7,evnt6|
+    evnt6,evnt8|
+    evnt8,evnt6|
+    evnt6,evnt10|
+    evnt10,evnt6|
+    evnt8,evnt10|
+    evnt10,evnt8
+|];
+l = [dummyAct,CphToLhr,CphToMad,LhrToMia,LhrToJfk,MadToLhr,MiaToClo,MiaToPty,PtyToClo,BogToClo,JfkToBog];
+K=10;
+%sam=[1,2,3,4,5,0,0,0,0,0];
