@@ -166,12 +166,13 @@ constraint not(exists(index in events)(M[lastEvent+1,index,2]==true /\ M[lastEve
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-output [
-    "trace : ", show(trace), " \n m: "] ++ [ show3d(M)] ++ [" LastEvent : ", show(lastEvent),"\n"] 
-        ++ ["%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% \n",
-         "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% \n", 
-         "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% \n"]
+% output [
+%     "trace : ", show(trace), " \n m: "] ++ [ show3d(M)] ++ [" LastEvent : ", show(lastEvent),"\n"] 
+%         ++ ["%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% \n",
+%          "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% \n", 
+%          "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% \n"]
 
+output ["k : ", show(lastEvent),"\n"] ++ ["trace : ", show(trace), "\n"]
 
 
 

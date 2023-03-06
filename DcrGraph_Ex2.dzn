@@ -1,0 +1,45 @@
+events = {dummyEv,evnt1,evnt2,evnt3,evnt4,evnt5};
+%lenE =10;
+InitialM =[|
+    false,false,false|
+    false,true,false|
+    false,true,false|
+    false,true,false|
+    false,true,false|
+    false,true,false
+|];
+Act ={dummyAct,FillOutExpenseReport,Approve,Reject,PayOut,WithdrawExpenseReport};
+numConditions =5;
+conditions =  [|
+    evnt1,evnt4|
+    evnt1,evnt2|
+    evnt1,evnt3|
+    evnt1,evnt5|
+    evnt2,evnt4
+|];
+numResponses =3;
+responses =[|
+    evnt1,evnt4|
+    evnt1,evnt2|
+    evnt3,evnt2       
+|];
+numInclusions =1;
+inclusions =[|
+    evnt1,evnt1
+|];
+numExclusions = 10;
+exclusions =[|
+    evnt4,evnt1|
+    evnt4,evnt2|
+    evnt4,evnt3|
+    evnt4,evnt4|
+    evnt4,evnt5|
+    evnt5,evnt1|
+    evnt5,evnt2|
+    evnt5,evnt3|
+    evnt5,evnt4|
+    evnt5,evnt5
+|];
+l = [dummyAct,FillOutExpenseReport,Approve,Reject,PayOut,WithdrawExpenseReport];
+K=6;
+%sam=[1,2,3,4,5,0,0,0,0,0];
