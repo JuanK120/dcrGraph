@@ -76,4 +76,3 @@ exclusions =[|
 |];
 l = [dummyAct,CphToLhr,CphToMad,LhrToMia,LhrToJfk,MadToLhr,MiaToClo,MiaToPty,PtyToClo,BogToClo,JfkToBog];
 K=10;
-%sam=[1,2,3,4,5,0,0,0,0,0];

@@ -1,0 +1,24 @@
+events = {dummyEv};
+%lenE =10;
+InitialM =[|
+    false,false,false
+|];
+Act ={dummyAct};
+numConditions 1;
+conditions =  [|
+    evnt1,evnt1
+|];
+numResponses =1;
+responses =[|
+    evnt1,evnt1     
+|];
+numInclusions =1;
+inclusions =[|
+    evnt1,evnt1
+|];
+numExclusions = 1;
+exclusions =[|
+    evnt1,evnt1
+|];
+l = [dummyAct];
+K=6;
