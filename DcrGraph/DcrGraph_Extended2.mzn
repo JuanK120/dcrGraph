@@ -78,6 +78,7 @@ var int: lastEvent :: add_to_output;
 % candidate Trace is of a length less than K
 array [1..K] of var events:trace :: add_to_output;
 
+array [1..K] of var Act:ActsOfTrace :: add_to_output;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%% Predicates and functions %%%%%%%%%%%%%
@@ -283,6 +284,8 @@ constraint forall (feat in feats)(
 
 var int: weigthedSum:: add_to_output;
 constraint weigthedSum = (sum(i in feats)(weights[i]*(alpha[i] div maxOfFeat(i,cost))*100) div 100);
+
+constraint forall(i in 1..K)(ActsOfTrace[i]= l[trace[i]]);
 
 solve satisfy;
 

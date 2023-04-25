@@ -36,10 +36,13 @@ lastEvent = dcrResult["lastEvent"]
 traces = []
 feats=dcrResult["feats"] 
 alphas=[]
+actsOfTrace=[]
 while dcrResult.status == Status.SATISFIED:
     
     traces.append(dcrResult["trace"])
     print("trace : ", dcrResult["trace"])
+    actsOfTrace.append(dcrResult["ActsOfTrace"])
+    print("Acts : ", dcrResult["ActsOfTrace"])
     alphas.append(dcrResult["alpha"])    
     print("alpha : ", dcrResult["alpha"])
     with dcrInstance.branch() as child:
@@ -74,10 +77,15 @@ print(paretoSolution.status)
 print("traces : ", paretoSolution["paretoOptimalTraces"])
 print("alphas : ", alphas)
 
-print("Calculating Pareto Front with pyhon code")
+for i in range(len(traces)):
+    if paretoSolution["paretoOptimalTraces"][i] == True:
+        print("Trace "+ str(i) + " : ", traces[i])
+        print("Actions of trace : ", actsOfTrace[i])
+        print("Cost of trace : ", alphas[i])
 
-print("in python")
-print(cull(alphas, dominates)[0])   
+#print("Calculating Pareto Front with pyhon code")
+#print("in python")
+#print(cull(alphas, dominates)[0])   
 
 
 

@@ -3,35 +3,35 @@ from pareto.pareto2 import cull,dominates
 import os
 import sys
 
-## Example 1
+### Example 1
 #fts=["costs","time","scales"]
 
-#Example 2
+### Example 2
 fts=["costs","time","steps"]
 
 
 
-# Load Dcr Graph model from file
+### Load Dcr Graph model from file
 DcrModel = Model("./DcrGraph/DcrGraph_Extended.mzn")
 
 # Load pareto optimization for Dcr graphs model from file
 paretoModel = Model("./pareto/pareto2.mzn")
 
-# Load .dzn file for the Dcr graph model
+### Load .dzn file for the Dcr graph model
 dznFile = sys.argv[1]
 if os.path.exists(dznFile):
     DcrModel.add_file(dznFile)
     #  "./minizinc/examples/DcrGraph_Ex1.dzn"
 
-# Load MiniZinc solver
+### Load MiniZinc solver
 gecode = Solver.lookup("gecode")
 
-# Create an Instance for the Dcr Graph
+### Create an Instance for the Dcr Graph
 dcrInstance = Instance(gecode, DcrModel)
 dcrInstance["K"]=int(sys.argv[2])
 dcrInstance["feats"]=fts
 
-#run instance
+### run instance
 
 print("executing DCR with minizinc model")
 
@@ -44,10 +44,12 @@ lastEvent = dcrResult["lastEvent"]
 traces = []
 feats=dcrResult["feats"] 
 alphas=[]
-
+actsOfTrace=[]
 while dcrResult.status == Status.SATISFIED:
     traces.append(dcrResult["trace"])
     print(dcrResult["trace"])
+    actsOfTrace.append(dcrResult["ActsOfTrace"])
+    print("Acts : ", dcrResult["ActsOfTrace"])
     alphas.append(dcrResult["alpha"])    
     print(dcrResult["alpha"])    
     with dcrInstance.branch() as child:
@@ -61,10 +63,10 @@ while dcrResult.status == Status.SATISFIED:
         if dcrResult.solution is not None:
             dcrInstance = child
 
-# Create an Instance for the Pareto model
+### Create an Instance for the Pareto model
 paretoInstance = Instance(gecode, paretoModel)
 
-# Add data to pareto model
+### Add data to pareto model
 paretoInstance["events"]=events
 paretoInstance["Act"]=Act
 paretoInstance["K"]=Kmax
@@ -76,15 +78,21 @@ paretoInstance["l"]=l
 
 print("Calculating Pareto Front with minizinc model")
 
-# Solving pareto model
+### Solving pareto model
 paretoSolution = paretoInstance.solve()
 
 
-#output
-print("traces : ", paretoSolution["paretoOptimalTraces"])
-print("alphas : ", alphas)
+### output
+#print("traces : ", paretoSolution["paretoOptimalTraces"])
+#print("alphas : ", alphas) 
 
-print("Calculating Pareto Front with pyhon code")
+for i in range(len(traces)):
+    if paretoSolution["paretoOptimalTraces"][i] == True:
+        print("Trace "+ str(i) + " : ", traces[i])
+        print("Actions of trace : ", actsOfTrace[i])
+        print("Cost of trace : ", alphas[i]) 
 
-print(cull(alphas, dominates)[0])   
+#print("Calculating Pareto Front with pyhon code")
+#print("in python")
+#print(cull(alphas, dominates)[0])   
 
