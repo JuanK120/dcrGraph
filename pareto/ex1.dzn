@@ -1,0 +1,22 @@
+events = {dummyEv,evnt1,evnt2,evnt3,evnt4,evnt5,evnt6,evnt7,evnt8,evnt9,evnt10};
+Act ={dummyAct,CphToLhr,CphToMad,MadToLhr,LhrToMia,LhrToJfk,MiaToClo,MiaToPty,PtyToClo,JfkToBog,BogToClo};
+K=10;
+numberOfSolutions=6;
+numberOfFeats=3;
+l= [dummyAct,CphToLhr,CphToMad,LhrToMia,LhrToJfk,MadToLhr,MiaToClo,MiaToPty,PtyToClo,BogToClo,JfkToBog];
+traces=[|
+    'evnt1', 'evnt4', 'evnt6', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv'|
+    'evnt1', 'evnt4', 'evnt7', 'evnt8', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv'|
+    'evnt1', 'evnt5', 'evnt9', 'evnt10', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv'|
+    'evnt2', 'evnt3', 'evnt4', 'evnt6', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv'|
+    'evnt2', 'evnt3', 'evnt4', 'evnt7', 'evnt8', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv'|
+    'evnt2', 'evnt3', 'evnt5', 'evnt9', 'evnt10', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv'
+|];
+alphas=[|
+    1120, 98500, 3|
+    1637, 94176, 4|
+    907, 49320, 4|
+    1642, 152500, 4|
+    2159, 148176, 5|
+    1429, 103320, 5
+|];

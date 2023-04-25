@@ -1,0 +1,28 @@
+events = {dummyEv,evnt1,evnt2,evnt3,evnt4,evnt5,evnt6,evnt7};
+Act ={dummyAct, electricCar,GasCar,HybridCar,30000To50000,50001To80000,80001To120000,120001Plus};
+InitialM =[|
+    false,false,false
+|];
+
+numConditions 1;
+conditions =  [|
+    evnt1,evnt1
+|];
+numResponses =1;
+responses =[|
+    evnt1,evnt1     
+|];
+numInclusions =1;
+inclusions =[|
+    evnt1,evnt1
+|];
+numExclusions = 1;
+exclusions =[|
+    evnt1,evnt1
+|];
+l = [dummyAct,electricCar,GasCar,HybridCar,30000To50000,50001To80000,80001To120000,120001Plus];
+K=6;
+feats={};
+cost[|
+     
+    |];

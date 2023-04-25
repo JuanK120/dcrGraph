@@ -1,15 +1,24 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Base DCR Model %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%% Parameters %%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %Events set
-enum events;
+enum events :: add_to_output;
+
+%States
+enum states = {executed,included,pending};
 
 %Initial Markings
-array [events, 1..3] of bool: InitialM;
+array [events, states] of bool: InitialM;
 
 %Actions set
-enum Act;
+enum Act :: add_to_output;
 
 
 %Condition Relations
@@ -40,10 +49,10 @@ array[1..numExclusions,1..2] of events:exclusions;
 
 %Labeling Function
 % l[i] is the label of event i
-array [events] of Act: l;
+array [events] of Act: l :: add_to_output;
 
 %Maximum Trace Length, Valid traces must be of a length equal to K or less
-int:K;
+int:K :: add_to_output;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%% Variables %%%%%%%%%%%%%%%%%%%%
@@ -57,21 +66,21 @@ int:K;
 % after executing the event trace[2], and so on. this marking is
 % taken into account to decide which event is executed at the i-th
 % moment
-array [1..K+1,events,1..3] of var bool: M; 
+array [1..K+1,events,states] of var bool: M; 
 
 %Trace
 
 % the position of the last event of a trace, after which the rest are
 % dummy values, because a trace can be of a length < K
-var int: lastEvent;
+var int: lastEvent :: add_to_output;
 
 % trace[i] is the i-th event executed, or dummyEvent in case the
 % candidate Trace is of a length less than K
-array [1..K] of var events:trace;
+array [1..K] of var events:trace :: add_to_output;
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%% Predicates and functions %%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%% Predicates and functions %%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % PREDICATE is_enabled
@@ -81,11 +90,9 @@ array [1..K] of var events:trace;
 % excluded at the moment of the execution of the event
 % -- i is the position of the trace we are analyzing
 % -- evnt is the event we want to verirfy if it is enabled
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-predicate is_enabled(var int:i, var events:evnt)= M[i,evnt,2]==true /\ 
+predicate is_enabled(var int:i, var events:evnt, array [1..K+1,events,states] of var bool: M)= M[i,evnt,included]==true /\ 
                                             forall(j in 1..numConditions where conditions[j,2]==events[evnt])(
-                                                    M[i,conditions[j,1],1]==true\/M[i,conditions[j,1],2]==false
+                                                    M[i,conditions[j,1],executed]==true\/M[i,conditions[j,1],included]==false
                                                    );
                                                    
 % FUNCTION is_contained
@@ -112,8 +119,6 @@ constraint (events[1] in trace /\ trace[lastEvent] != events[1] /\ trace[lastEve
 % it reaches a dummy value, after which the rest are dummy
 % values. for that, then we have:
 
-% trace[i] must ve a value of the enum E or dummyEv
-constraint forall(index in 1..K)(trace[index] in events);
 % if trace[i] is dummyEv then trace[i+1] is dummyEv
 constraint forall(index in 1..K-1)(if trace[index]==events[1] then trace[index+1]==events[1] endif);
 % if trace[i] is not dummyEv then trace[i-1] is not dummyEv
@@ -122,24 +127,24 @@ constraint forall(index in 2..K)(if trace[index]!=events[1] then trace[index-1]!
 %%% marking Transitions %%%
 
 % M[1,...,...] is the initial marking set of the model.
-constraint forall(indexI in events,indexJ in 1..3)(M[1,indexI,indexJ]==InitialM[indexI,indexJ]);
+constraint forall(indexI in events,indexJ in states)(M[1,indexI,indexJ]==InitialM[indexI,indexJ]);
 
 % We create a default value for the marking when the dummy
 % values Start
 % if trace[i] is dummyEv then M[i+1] matrix is all true
-constraint forall(index in 2..K+1)(if trace[index-1]==events[1] then forall(i in events,j in 1..3)(M[index,i,j]==true) endif);
+constraint forall(index in 2..K+1)(if trace[index-1]==events[1] then forall(i in events,j in states)(M[index,i,j]==true) endif);
 
 
 % we mark as executed in M[i+1,...,...] the event executed at the I-th moment
 constraint forall (index in 2..K+1)(if trace[index-1] != events[1] then
-                                        M[index,trace[index-1],1]==true
+                                        M[index,trace[index-1],executed]==true
                                     endif);
 
 
 % we add in M[i+1,...,...] responses trigered by executing the i-th event
 constraint forall(index in 2..K+1)(if trace[index-1] != events[1] then 
                                     forall(i in 1..numResponses where responses[i,1]==trace[index-1])(
-                                           M[index,responses[i,2],3]== true
+                                           M[index,responses[i,2],pending]== true
                                            ) endif);
 
 % we mark as excluded in M[i+1,...,...] the events excluded due to executing the i-th event
@@ -148,7 +153,7 @@ constraint forall(index in 2..K+1)(if trace[index-1] != events[1] then
                                           (
                                              if not(is_contained([trace[index-1],exclusions[i,2]],inclusions,numInclusions))
                                              then
-                                              M[index,exclusions[i,2],2]== false
+                                              M[index,exclusions[i,2],included]== false
                                              endif
                                            )endif);
 
@@ -156,7 +161,7 @@ constraint forall(index in 2..K+1)(if trace[index-1] != events[1] then
 constraint forall(index in 2..K+1)(if trace[index-1] != events[1] then 
                                     forall(i in 1..numInclusions where inclusions[i,1]==trace[index-1])
                                           (
-                                              M[index,inclusions[i,2],2]== true
+                                              M[index,inclusions[i,2],included]== true
                                            )endif);
                                            
 % if there is no inclusion or exclusion relation 
@@ -168,7 +173,7 @@ constraint forall(index in 2..K+1)(if trace[index-1] != events[1] then
                                               not(is_contained([trace[index-1],i],inclusions,numInclusions) 
                                                   \/ is_contained([trace[index-1],i],exclusions,numExclusions))
                                            )(
-                                               M[index,i,2]==M[index-1,i,2]  
+                                               M[index,i,included]==M[index-1,i,included]  
                                            ) endif);
 
 % if there is no Response relation trigered by
@@ -178,28 +183,108 @@ constraint forall(index in 2..K+1)(if trace[index-1] != events[1] then
                                     forall(i in events where 
                                               not(is_contained([trace[index-1],i],responses,numResponses))
                                            )(
-                                               M[index,i,3]=M[index-1,i,3]  
+                                               M[index,i,pending]=M[index-1,i,pending]  
                                            ) endif);
                          
 % for all other events that are not trace[i],
 % the executed marking is the same as the previous one                   
 constraint forall (index in 2..K+1)(if trace[index-1] != events[1] then
                                         forall(e in events where e != trace[index-1])(
-                                          M[index,e,1]==M[index-1,e,1]
+                                          M[index,e,executed]==M[index-1,e,executed]
                                         )
                                     endif);
 
 % for every element of trace[i], they are enabled events at the i-th moment, 
 % meaning, the Event is included at the i-th moment, and all preconditions
 % have already been executed
-constraint forall(index in 1..K)(if trace[index] != events[1] then is_enabled(index, events[trace[index]])endif);
+constraint forall(index in 1..K)(if trace[index] != events[1] then is_enabled(index, events[trace[index]],M)endif);
 
 % Accepting marking, the condition that must be true for a trace to be valid,
 % it must happen that at the end of the trace, there must not be ane event
 % that is both pending and included at the same time.
-constraint not(exists(index in events)(M[lastEvent+1,index,2]==true /\ M[lastEvent+1,index,3]==true));
+constraint not(exists(index in events)(M[lastEvent+1,index,included]==true /\ M[lastEvent+1,index,pending]==true));
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DCR Extension %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%% Parameters %%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Features asociated with actions
+enum feats :: add_to_output;
+
+% cost[i,j] represents the cost of the action i
+% asociated with the feature j
+array [Act,feats] of int: cost;
+
+array [feats] of int: weights;
+
+
+enum functions = {sumVal,avgVal,lenght};
+array [feats] of functions: agg;
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%% Variables %%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+array[feats] of var int: alpha :: add_to_output;
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%% Predicates and functions %%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Aggregation fuctions agg_f
+
+function var int: trace_sum(array [1..K] of var events:trace, feats:feat,
+                            array [Act,feats] of int: cost,array [events] of Act: l)= 
+                  sum(i in 1..K where trace[i] != events[1])(cost[l[trace[i]],feat])    
+                  ;
+
+
+function var float: trace_avg(array [1..K] of var events:trace, feats:feat,
+                            array [Act,feats] of int: cost,array [events] of Act: l)= 
+                  sum(i in 1..lastEvent)(cost[l[trace[i]],feat])/lastEvent
+                  ;
+
+%% maxOfFeat
+function var int: maxOfFeat(feats:feat,
+                            array [Act,feats] of int: cost)=
+                            if max([cost[i,feat]|i in Act]) > 0 
+                            then 
+                                max([cost[i,feat]|i in Act])
+                            else 
+                                1
+                            endif;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%% Constraints %%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+constraint forall (feat in feats)(
+          if agg[feat] == sumVal then
+            alpha[feat] == trace_sum(trace,feat,cost,l)
+          else
+            if agg[feat] == avgVal then
+              alpha[feat] == trace_avg(trace,feat,cost,l)
+            else 
+              if agg[feat] == lenght then
+                alpha[feat] == lastEvent
+              endif 
+            endif             
+          endif
+);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+var int: weigthedSum:: add_to_output;
+constraint weigthedSum = (sum(i in feats)(weights[i]*(alpha[i] div maxOfFeat(i,cost))*100) div 100);
+
+solve satisfy;
 
 % output [
 %     "trace : ", show(trace), " \n m: "] ++ [ show3d(M)] ++ [" LastEvent : ", show(lastEvent),"\n"] 
@@ -207,8 +292,9 @@ constraint not(exists(index in events)(M[lastEvent+1,index,2]==true /\ M[lastEve
 %          "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% \n", 
 %          "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% \n"]
 
-output ["k : ", show(lastEvent),"\n"] ++ ["trace : " ] ++ 
-       [if show(l[e])=="dummyAct" then "" else show(l[e])++" " endif|e in trace]
+% output ["k : ", show(lastEvent),"\n"] ++ ["trace : " ] ++ 
+%        [if show(l[e])=="dummyAct" then "" else " " ++ show(l[e])endif|e in trace]
+%        ++ ["\n cost : \n"] ++ [show(feat) ++ " : " ++ show(alpha[feat])|feat in feats]
 
 
 

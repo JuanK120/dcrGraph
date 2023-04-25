@@ -1,5 +1,4 @@
-events = {dummyEv,evnt1,evnt2,evnt3,evnt4,evnt5,evnt6,evnt7,evnt8,evnt9,evnt10};
-%lenE =10;
+events={dummyEv,evnt1,evnt2,evnt3,evnt4,evnt5,evnt6,evnt7,evnt8,evnt9,evnt10};
 InitialM =[|
     false,false,false|
     false,true,false|
@@ -14,7 +13,6 @@ InitialM =[|
     false,false,true
 |];
 Act ={dummyAct,CphToLhr,CphToMad,MadToLhr,LhrToMia,LhrToJfk,MiaToClo,MiaToPty,PtyToClo,JfkToBog,BogToClo};
-%lenAct =10;
 numConditions =10;
 conditions =  [|
     evnt1,evnt4|
@@ -75,4 +73,21 @@ exclusions =[|
     evnt10,evnt8
 |];
 l = [dummyAct,CphToLhr,CphToMad,LhrToMia,LhrToJfk,MadToLhr,MiaToClo,MiaToPty,PtyToClo,BogToClo,JfkToBog];
-K=10;
+feats={costs,time,scales};
+agg = [sumVal,sumVal,lenght];
+cost = [|
+     0,0,0|
+     227,12600,0|
+     325,19800,0|
+     151,10800,0|
+     424,46800,0|
+     613,68400,0|
+     280,17500,0|
+     350,7200,0|
+     447,5976,0|
+     452,21600,0|
+     77,4320,0
+    |];
+%weights=[17,33,50];
+%K=5;
+
