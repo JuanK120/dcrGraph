@@ -6,65 +6,87 @@ print(pareto2.cull([[2500,1050,1],[1500,1200,2],[1750,1450,2],[1750,1100,2],[195
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-['evnt1', 'evnt4', 'evnt7', 'evnt8', 'dummyEv', 'dummyEv']
-[1637, 94176, 4]
-['evnt1', 'evnt4', 'evnt6', 'dummyEv', 'dummyEv', 'dummyEv']
-[1120, 98500, 3]
-['evnt1', 'evnt4', 'evnt7', 'evnt8', 'dummyEv', 'dummyEv']
-[1637, 94176, 4]
-['evnt1', 'evnt4', 'evnt6', 'dummyEv', 'dummyEv', 'dummyEv']
-[1120, 98500, 3]
-['evnt1', 'evnt4', 'evnt7', 'evnt8', 'dummyEv', 'dummyEv']
-[1637, 94176, 4]
-['evnt1', 'evnt4', 'evnt6', 'dummyEv', 'dummyEv', 'dummyEv']
-[1120, 98500, 3]
-['evnt1', 'evnt4', 'evnt7', 'evnt8', 'dummyEv', 'dummyEv']
-[1637, 94176, 4]
-['evnt1', 'evnt4', 'evnt6', 'dummyEv', 'dummyEv', 'dummyEv']
-[1120, 98500, 3]
-['evnt1', 'evnt4', 'evnt7', 'evnt8', 'dummyEv', 'dummyEv']
-[1637, 94176, 4]
-['evnt1', 'evnt4', 'evnt6', 'dummyEv', 'dummyEv', 'dummyEv']
-[1120, 98500, 3]
-['evnt1', 'evnt4', 'evnt7', 'evnt8', 'dummyEv', 'dummyEv']
-[1637, 94176, 4]
-['evnt1', 'evnt4', 'evnt6', 'dummyEv', 'dummyEv', 'dummyEv']
-[1120, 98500, 3]
-['evnt1', 'evnt4', 'evnt7', 'evnt8', 'dummyEv', 'dummyEv']
-[1637, 94176, 4]
-['evnt1', 'evnt4', 'evnt6', 'dummyEv', 'dummyEv', 'dummyEv']
-[1120, 98500, 3]
-['evnt1', 'evnt4', 'evnt7', 'evnt8', 'dummyEv', 'dummyEv']
-[1637, 94176, 4]
-['evnt1', 'evnt4', 'evnt6', 'dummyEv', 'dummyEv', 'dummyEv']
-[1120, 98500, 3]
-['evnt1', 'evnt4', 'evnt7', 'evnt8', 'dummyEv', 'dummyEv']
-[1637, 94176, 4]
-['evnt1', 'evnt4', 'evnt6', 'dummyEv', 'dummyEv', 'dummyEv']
-[1120, 98500, 3]
-['evnt1', 'evnt4', 'evnt7', 'evnt8', 'dummyEv', 'dummyEv']
-[1637, 94176, 4]
-['evnt1', 'evnt4', 'evnt6', 'dummyEv', 'dummyEv', 'dummyEv']
-[1120, 98500, 3]
-['evnt1', 'evnt4', 'evnt7', 'evnt8', 'dummyEv', 'dummyEv']
-[1637, 94176, 4]
-['evnt1', 'evnt4', 'evnt6', 'dummyEv', 'dummyEv', 'dummyEv']
-[1120, 98500, 3]
-['evnt1', 'evnt4', 'evnt7', 'evnt8', 'dummyEv', 'dummyEv']
-[1637, 94176, 4]
-['evnt1', 'evnt4', 'evnt6', 'dummyEv', 'dummyEv', 'dummyEv']
-[1120, 98500, 3]
-['evnt1', 'evnt4', 'evnt7', 'evnt8', 'dummyEv', 'dummyEv']
-[1637, 94176, 4]
-['evnt1', 'evnt4', 'evnt6', 'dummyEv', 'dummyEv', 'dummyEv']
-[1120, 98500, 3]
-['evnt1', 'evnt4', 'evnt7', 'evnt8', 'dummyEv', 'dummyEv']
-[1637, 94176, 4]
-['evnt1', 'evnt4', 'evnt6', 'dummyEv', 'dummyEv', 'dummyEv']
-[1120, 98500, 3]
-['evnt1', 'evnt4', 'evnt7', 'evnt8', 'dummyEv', 'dummyEv']
-[1637, 94176, 4]
-['evnt1', 'evnt4', 'evnt6', 'dummyEv', 'dummyEv', 'dummyEv']
-[1120, 98500, 3]
-['evnt1', 'evnt4', 'evnt7', 'evnt8', 'dummyEv', 'dummyEv']
-[1637, 94176, 4]
+args = {
+    "K" : 10,
+    "feats" : ['costs','time','scales'],
+    "events" : ['dummyEv', 'evnt1', 'evnt2', 'evnt3', 'evnt4', 'evnt5', 'evnt6', 'evnt7', 'evnt8', 'evnt9', 'evnt10'],
+    "InitialM" : [  [False, False, False],
+                    [False, True, False],
+                    [False, True, False],
+                    [False, True, False],
+                    [False, True, False],
+                    [False, True, False],
+                    [False, True, True],
+                    [False, True, False],
+                    [False, False, True],
+                    [False, True, False],
+                    [False, False, True]
+                 ],
+    "Act" : ['dummyAct', 'CphToLhr', 'CphToMad', 'MadToLhr', 'LhrToMia', 'LhrToJfk', 'MiaToClo', 'MiaToPty', 'PtyToClo', 'JfkToBog', 'BogToClo'],
+    "conditions" : [['evnt1', 'evnt4'],
+                    ['evnt1', 'evnt5'],
+                    ['evnt2', 'evnt3'],
+                    ['evnt3', 'evnt4'],
+                    ['evnt3', 'evnt5'],
+                    ['evnt5', 'evnt9'],
+                    ['evnt4', 'evnt6'],
+                    ['evnt4', 'evnt7'],
+                    ['evnt7', 'evnt8'],
+                    ['evnt9', 'evnt10']
+                   ],
+    "responses" : [
+                    ['evnt2','evnt6'],
+                    ['evnt5','evnt9']         
+                  ],
+    "inclusions" : [['evnt1', 'evnt4'],
+                    ['evnt1', 'evnt5'],
+                    ['evnt3', 'evnt4'],
+                    ['evnt3', 'evnt5'],
+                    ['evnt5', 'evnt9'],
+                    ['evnt4', 'evnt6'],
+                    ['evnt4', 'evnt7'],
+                    ['evnt7', 'evnt8'],
+                    ['evnt9', 'evnt10']
+                   ],
+    "exclusions" : [['evnt1', 'evnt1'],
+                    ['evnt2', 'evnt2'],
+                    ['evnt3', 'evnt3'],
+                    ['evnt4', 'evnt4'],
+                    ['evnt5', 'evnt5'],
+                    ['evnt6', 'evnt6'],
+                    ['evnt7', 'evnt7'],
+                    ['evnt8', 'evnt8'],
+                    ['evnt9', 'evnt9'],
+                    ['evnt10', 'evnt10'],
+                    ['evnt1', 'evnt2'],
+                    ['evnt2', 'evnt1'],
+                    ['evnt1', 'evnt3'],
+                    ['evnt4', 'evnt5'],
+                    ['evnt5', 'evnt4'],
+                    ['evnt5', 'evnt6'],
+                    ['evnt5', 'evnt7'],
+                    ['evnt4', 'evnt9'],
+                    ['evnt6', 'evnt7'],
+                    ['evnt7', 'evnt6'],
+                    ['evnt6', 'evnt8'],
+                    ['evnt8', 'evnt6'],
+                    ['evnt6', 'evnt10'],
+                    ['evnt10', 'evnt6'],
+                    ['evnt8', 'evnt10'],
+                    ['evnt10', 'evnt8']
+                   ],
+    "l" : ['dummyAct','CphToLhr','CphToMad','LhrToMia','LhrToJfk','MadToLhr','MiaToClo','MiaToPty','PtyToClo','BogToClo','JfkToBog'],
+    "agg" : ['sumVal','sumVal','lenght'],
+    "cost" : [[0, 0, 0],
+              [227, 12600, 0],
+              [325, 19800, 0],
+              [151, 10800, 0],
+              [424, 46800, 0],
+              [613, 68400, 0],
+              [280, 17500, 0],
+              [350, 7200, 0],
+              [447, 5976, 0],
+              [452, 21600, 0],
+              [77, 4320, 0]
+            ]
+}

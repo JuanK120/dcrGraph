@@ -4,12 +4,10 @@ import os
 import sys
 
 ### Example 1
-#fts=["costs","time","scales"]
+fts=["costs","time","scales"]
 
 ### Example 2
-fts=["costs","time","steps"]
-
-
+#fts=["costs","time","steps"]
 
 ### Load Dcr Graph model from file
 DcrModel = Model("./DcrGraph/DcrGraph_Extended.mzn")
@@ -62,6 +60,7 @@ while dcrResult.status == Status.SATISFIED:
         dcrResult = child.solve()
         if dcrResult.solution is not None:
             dcrInstance = child
+        print (dcrResult.statistics["solveTime"])
 
 ### Create an Instance for the Pareto model
 paretoInstance = Instance(gecode, paretoModel)
@@ -90,7 +89,8 @@ for i in range(len(traces)):
     if paretoSolution["paretoOptimalTraces"][i] == True:
         print("Trace "+ str(i) + " : ", traces[i])
         print("Actions of trace : ", actsOfTrace[i])
-        print("Cost of trace : ", alphas[i]) 
+        print("Cost of trace : ", alphas[i])
+            
 
 #print("Calculating Pareto Front with pyhon code")
 #print("in python")
