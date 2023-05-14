@@ -57,20 +57,8 @@ def Run_test(tests):
 
 test = []
 
-for i in range(50):
-    test.append(15+2*i)
+for i in range(33):
+    test.append(51+2*i)
 
 Run_test(test)
-               
-                                            
-
-
-num_threads = 2
-threads = []
-for i in range(num_threads):
-    thread = threading.Thread(target=test)
-    thread.start()
-    threads.append(thread)
-
-for thread in threads:
-    thread.join()
+  

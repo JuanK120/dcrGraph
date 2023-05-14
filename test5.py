@@ -10,7 +10,7 @@ def Run_test(tests):
 
     #Responses
     for n in tests:
-        j=120;l=10;m=10;i=10;o=10;p=10
+        j=45;l=10;m=10;i=10;o=10;p=10
         newDir = "k"+str(i)+", Ev"+str(j)+", Ft"+str(l)+", Cnd"+str(m)+", Res"+str(n)+", In"+str(o)+", Ex"+str(p)
         print(newDir)
         if not os.path.exists(os.path.join("Tests/Detailed/responses",newDir)):
@@ -27,7 +27,7 @@ def Run_test(tests):
                 csvWriter.writerow(dataToStore)
                 with open(os.path.join("Tests/Detailed/responses",newDir, "tests.txt"), 'w', newline='') as tests_file:
                     graphs = ""
-                    while (validGraph<30):
+                    while (validGraph<15):
                         model =  dcrGenerator.generate(i,j,l,m,n,o,p)
                         #print(model)
                         result = pymzn_ExtendedDCrGraph.solveExtendedDcrGraph(model)
@@ -58,8 +58,9 @@ def Run_test(tests):
 
 test = []
 
-for i in range(50):
-    test.append(15+2*i)
+
+for i in range(1):
+    test.append(23+2*i)
 
 Run_test(test)
             

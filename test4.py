@@ -9,8 +9,7 @@ def Run_test(tests):
                 
     # Conditions
     for m in tests:
-        print(m)
-        j=120;l=10;i=10;n=10;o=10;p=10
+        j=45;l=10;i=10;n=10;o=10;p=10
         newDir = "k"+str(i)+", Ev"+str(j)+", Ft"+str(l)+", Cnd"+str(m)+", Res"+str(n)+", In"+str(o)+", Ex"+str(p)
         print(newDir)
         if not os.path.exists(os.path.join("Tests/Detailed/conditions",newDir)):
@@ -58,7 +57,7 @@ def Run_test(tests):
 
 test = []
 
-for i in range(50):
-    test.append(15+2*i)
+for i in range(46):
+    test.append(19+2*i)
 
 Run_test(test)
