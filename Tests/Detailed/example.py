@@ -29,7 +29,7 @@ def getFeats(folder):
 getGlobalCSV(action) created the global CSV file associated with the tests in the different subfolders
 of the corresponding action. This functions also creates a bar plot summarsing the results.
 """
-def getGlobalCSV(action):
+def getGlobalCSV(action,plotfeat='totalTime'):
     d={'i':[],'k':[],'Ev':[],'Ft':[],'Cnd':[],'Res':[],'In':[],'Ex':[],'numTraces':[],'solveTime':[],'nodes':[],'totalTime':[]}
     for folder in os.listdir(action):
         if 'k' in folder:
@@ -60,9 +60,9 @@ def getGlobalCSV(action):
     conffeat='Ex'
     df=df[df[conffeat].isin(range(15,114,3))]
     plt.figure()
-    sns.boxplot( x=df[conffeat],y=df['totalTime'])
-    plt.savefig(action+'_'+conffeat+'.pdf', bbox_inches='tight')
+    sns.boxplot( x=df[conffeat],y=df[plotfeat])
+    plt.savefig(action+'_'+conffeat+'_'+plotfeat+'.pdf', bbox_inches='tight')
 
 
 
-getGlobalCSV('exclusions')
+getGlobalCSV('exclusions', plotfeat='nodes')
