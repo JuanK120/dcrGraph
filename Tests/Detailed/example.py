@@ -30,13 +30,14 @@ getGlobalCSV(action) created the global CSV file associated with the tests in th
 of the corresponding action. This functions also creates a bar plot summarsing the results.
 """
 def getGlobalCSV(action):
-    d={'k':[],'Ev':[],'Ft':[],'Cnd':[],'Res':[],'In':[],'Ex':[],'numTraces':[],'solveTime':[],'nodes':[],'totalTime':[]}
+    d={'i':[],'k':[],'Ev':[],'Ft':[],'Cnd':[],'Res':[],'In':[],'Ex':[],'numTraces':[],'solveTime':[],'nodes':[],'totalTime':[]}
     for folder in os.listdir(action):
         if 'k' in folder:
             F=getFeats(folder)
             lines=open(action+'/'+folder+'/data.csv').readlines()[1:]
-            for line in lines:
+            for (i,line) in enumerate(lines):
                 vals=map(float, line.split(','))
+                d['i'].append(i)
                 for k in F:
                     d[k].append(F[k])
 
