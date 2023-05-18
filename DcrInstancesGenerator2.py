@@ -78,4 +78,4 @@ def randAgg() :
         return 'lenght'
     
 def randCost() :
-    return random.randrange(1,1000)
+    return random.randrange(1,100)

@@ -57,12 +57,31 @@ def getGlobalCSV(action,plotfeat='totalTime'):
 
     df.to_csv(action+'.csv')
 
-    conffeat='Ex'
-    df=df[df[conffeat].isin(range(15,114,3))]
+    conffeat='k'
+    df=df[df[conffeat].isin(range(15,65,2))]
     plt.figure()
     sns.boxplot( x=df[conffeat],y=df[plotfeat])
     plt.savefig(action+'_'+conffeat+'_'+plotfeat+'.pdf', bbox_inches='tight')
 
 
 
-getGlobalCSV('exclusions', plotfeat='nodes')
+#getGlobalCSV('exclusions', plotfeat='nodes')
+
+#getGlobalCSV('conditions', plotfeat='nodes')
+#getGlobalCSV('conditions', plotfeat='solveTime')
+#getGlobalCSV('conditions', plotfeat='totalTime')
+#getGlobalCSV('events', plotfeat='nodes')
+#getGlobalCSV('events', plotfeat='solveTime')
+#getGlobalCSV('events', plotfeat='totalTime')
+#getGlobalCSV('feats', plotfeat='nodes')
+#getGlobalCSV('feats', plotfeat='solveTime')
+#getGlobalCSV('feats', plotfeat='totalTime')
+#getGlobalCSV('inclusions', plotfeat='nodes')
+#getGlobalCSV('inclusions', plotfeat='solveTime')
+#getGlobalCSV('inclusions', plotfeat='totalTime')
+#getGlobalCSV('responses', plotfeat='nodes')
+#getGlobalCSV('responses', plotfeat='solveTime')
+#getGlobalCSV('responses', plotfeat='totalTime')
+getGlobalCSV('k', plotfeat='nodes')
+getGlobalCSV('k', plotfeat='solveTime')
+getGlobalCSV('k', plotfeat='totalTime')

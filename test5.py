@@ -59,8 +59,8 @@ def Run_test(tests):
 test = []
 
 
-for i in range(1):
-    test.append(23+2*i)
+for i in range(50):
+    test.append(10+2*i)
 
 Run_test(test)
             

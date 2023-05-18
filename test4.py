@@ -20,13 +20,12 @@ def Run_test(tests):
             with open(csv_file_path, 'w', newline='') as csv_file:
                 writer = csv.writer(avgs_file)
                 writer.writerow(dataToStore)
-                averages=[0,0,0,0]
                 csvWriter = csv.writer(csv_file)
                 validGraph=0
                 csvWriter.writerow(dataToStore)
                 with open(os.path.join("Tests/Detailed/conditions",newDir, "tests.txt"), 'w', newline='') as tests_file:
                     graphs = ""
-                    while (validGraph<30):
+                    while (validGraph<15):
                         model =  dcrGenerator.generate(i,j,l,m,n,o,p)
                         #print(model)
                         result = pymzn_ExtendedDCrGraph.solveExtendedDcrGraph(model)
@@ -38,18 +37,13 @@ def Run_test(tests):
                             #print(result["numberOfOptimalTraces"])
                             row=[]
                             row.append(result["numberOfOptimalTraces"])
-                            averages[0]+=result["numberOfOptimalTraces"]
                             row.append(result["modelsExecutionTime"])
-                            averages[1]+=result["modelsExecutionTime"]
                             row.append(result["exploredNodes"])
-                            averages[2]+=result["exploredNodes"]
                             row.append(result["totalTime"]) 
-                            averages[3]+=result["totalTime"]
                             csvWriter.writerow(row)
                             validGraph+=1 
                     tests_file.writelines(graphs)
                 tests_file.close()      
-                writer.writerow([a / 50 for a in averages])
             csv_file.close()
         avgs_file.close()
         print("instances of" + newDir + "completed")
@@ -57,7 +51,7 @@ def Run_test(tests):
 
 test = []
 
-for i in range(46):
-    test.append(19+2*i)
+for i in range(50):
+    test.append(15+2*i)
 
 Run_test(test)
