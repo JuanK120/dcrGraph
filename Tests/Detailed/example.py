@@ -60,7 +60,12 @@ def getGlobalCSV(action,plotfeat='totalTime'):
     conffeat='k'
     df=df[df[conffeat].isin(range(15,65,2))]
     plt.figure()
-    sns.boxplot( x=df[conffeat],y=df[plotfeat])
+
+    
+    g=sns.boxplot( x=df[conffeat],y=df[plotfeat])
+    if 'Time' in plotfeat:
+        g.set(ylabel=plotfeat+' (sec)')
+    
     plt.yscale('log')
     plt.ylim(1, 10000)
     plt.savefig(action+'_'+conffeat+'_'+plotfeat+'.pdf', bbox_inches='tight')
