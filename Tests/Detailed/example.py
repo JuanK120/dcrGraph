@@ -25,11 +25,8 @@ def getFeats(folder):
             d['Ex']=int(kv.split('Ex')[1])
     return(d)
 
-"""
-getGlobalCSV(action) created the global CSV file associated with the tests in the different subfolders
-of the corresponding action. This functions also creates a bar plot summarsing the results.
-"""
-def getGlobalCSV(action,plotfeat='totalTime'):
+
+def getdataset(action):
     d={'i':[],'k':[],'Ev':[],'Ft':[],'Cnd':[],'Res':[],'In':[],'Ex':[],'numTraces':[],'solveTime':[],'nodes':[],'totalTime':[]}
     for folder in os.listdir(action):
         if 'k' in folder:
@@ -43,8 +40,29 @@ def getGlobalCSV(action,plotfeat='totalTime'):
 
                 for (k,v) in zip(['numTraces','solveTime','nodes','totalTime'],vals):
                     d[k].append(v)
+    return d
 
-    df=pd.DataFrame.from_dict(d)
+
+"""
+getGlobalCSV(action) created the global CSV file associated with the tests in the different subfolders
+of the corresponding action. This functions also creates a bar plot summarsing the results.
+"""
+def getGlobalCSV(action,plotfeat='totalTime',abreviation='k'):
+#    d={'i':[],'k':[],'Ev':[],'Ft':[],'Cnd':[],'Res':[],'In':[],'Ex':[],'numTraces':[],'solveTime':[],'nodes':[],'totalTime':[]}
+#    for folder in os.listdir(action):
+#        if 'k' in folder:
+#            F=getFeats(folder)
+#            lines=open(action+'/'+folder+'/data.csv').readlines()[1:]
+#            for (i,line) in enumerate(lines):
+#                vals=map(float, line.split(','))
+#                d['i'].append(i)
+#                for k in F:
+#                    d[k].append(F[k])
+#
+#                for (k,v) in zip(['numTraces','solveTime','nodes','totalTime'],vals):
+#                    d[k].append(v)
+
+    df=pd.DataFrame.from_dict(getdataset(action))#d
 
     print('k',sorted(set(df['k'])))
     print('Ev',sorted(set(df['Ev'])))
@@ -54,41 +72,53 @@ def getGlobalCSV(action,plotfeat='totalTime'):
     print('In',sorted(set(df['In'])))
     print('Ex',sorted(set(df['Ex'])))
 
+    if (action == 'k'):
+        xLabel = "Length of trace (k)"
+    else :
+        xLabel = "Number of "+action
+
+    if (plotfeat == 'nodes'):
+        yLabel = "Number of nodes explored"
+    else :
+        yLabel = plotfeat+" (Sec)"
+
 
     df.to_csv(action+'.csv')
 
-    conffeat='k'
-    df=df[df[conffeat].isin(range(15,65,2))]
+    conffeat=abreviation
+    df=df[df[conffeat].isin(range(15,46,2))]
+
     plt.figure()
 
-    
-    g=sns.boxplot( x=df[conffeat],y=df[plotfeat])
-    if 'Time' in plotfeat:
-        g.set(ylabel=plotfeat+' (sec)')
-    
-    plt.yscale('log')
-    plt.ylim(1, 10000)
+    plt.ylim(0, 0.5)
+    #plt.yscale('log')
+    g = sns.boxplot( x=df[conffeat],y=df[plotfeat])
+    g.set(ylabel=yLabel, xlabel= xLabel)
     plt.savefig(action+'_'+conffeat+'_'+plotfeat+'.pdf', bbox_inches='tight')
 
 
 
 #getGlobalCSV('exclusions', plotfeat='nodes')
 
-#getGlobalCSV('conditions', plotfeat='nodes')
-#getGlobalCSV('conditions', plotfeat='solveTime')
-#getGlobalCSV('conditions', plotfeat='totalTime')
-#getGlobalCSV('events', plotfeat='nodes')
-#getGlobalCSV('events', plotfeat='solveTime')
-#getGlobalCSV('events', plotfeat='totalTime')
-#getGlobalCSV('feats', plotfeat='nodes')
-#getGlobalCSV('feats', plotfeat='solveTime')
-#getGlobalCSV('feats', plotfeat='totalTime')
-#getGlobalCSV('inclusions', plotfeat='nodes')
-#getGlobalCSV('inclusions', plotfeat='solveTime')
-#getGlobalCSV('inclusions', plotfeat='totalTime')
-#getGlobalCSV('responses', plotfeat='nodes')
-#getGlobalCSV('responses', plotfeat='solveTime')
-#getGlobalCSV('responses', plotfeat='totalTime')
-getGlobalCSV('k', plotfeat='nodes')
-getGlobalCSV('k', plotfeat='solveTime')
-getGlobalCSV('k', plotfeat='totalTime')
+#getGlobalCSV('conditions', plotfeat='nodes',abreviation='Cnd')
+#getGlobalCSV('conditions', plotfeat='solveTime',abreviation='Cnd')
+#getGlobalCSV('conditions', plotfeat='totalTime',abreviation='Cnd')
+#getGlobalCSV('responses', plotfeat='nodes',abreviation='Res')
+#getGlobalCSV('responses', plotfeat='solveTime',abreviation='Res')
+#getGlobalCSV('responses', plotfeat='totalTime',abreviation='Res')
+
+#getGlobalCSV('events', plotfeat='nodes',abreviation='Ev')
+#getGlobalCSV('events', plotfeat='solveTime',abreviation='Ev')
+#getGlobalCSV('events', plotfeat='totalTime',abreviation='Ev')
+#getGlobalCSV('feats', plotfeat='nodes',abreviation='Ft')
+getGlobalCSV('feats', plotfeat='solveTime',abreviation='Ft')
+#getGlobalCSV('feats', plotfeat='totalTime',abreviation='Ft')
+#getGlobalCSV('k', plotfeat='nodes',abreviation='k')
+getGlobalCSV('k', plotfeat='solveTime',abreviation='k')
+#getGlobalCSV('k', plotfeat='totalTime',abreviation='k')
+#getGlobalCSV('inclusions', plotfeat='nodes',abreviation='In')
+#getGlobalCSV('inclusions', plotfeat='solveTime',abreviation='In')
+#getGlobalCSV('inclusions', plotfeat='totalTime',abreviation='In')
+#getGlobalCSV('exclusions', plotfeat='nodes',abreviation='Ex')
+#getGlobalCSV('exclusions', plotfeat='solveTime',abreviation='Ex')
+#getGlobalCSV('exclusions', plotfeat='totalTime',abreviation='Ex')

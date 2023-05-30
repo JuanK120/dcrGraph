@@ -58,8 +58,8 @@ test1 = [59] #Falta
 
 test = []
 
-for i in range(25):
-    test.append(67+2*i)
+for i in range(15):
+    test.append(15+2*i)
 
 Run_test(test)
                

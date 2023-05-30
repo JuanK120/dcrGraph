@@ -57,7 +57,7 @@ def Run_test(tests):
 
 test = []
 
-for i in range(50):
+for i in range(15):
     test.append(15+2*i)
 
 Run_test(test)

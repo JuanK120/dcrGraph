@@ -27,7 +27,7 @@ def Run_test(tests):
                 csvWriter.writerow(dataToStore)
                 with open(os.path.join("Tests/Detailed/responses",newDir, "tests.txt"), 'w', newline='') as tests_file:
                     graphs = ""
-                    while (validGraph<15):
+                    while (validGraph<5):
                         model =  dcrGenerator.generate(i,j,l,m,n,o,p)
                         #print(model)
                         result = pymzn_ExtendedDCrGraph.solveExtendedDcrGraph(model)
@@ -59,8 +59,8 @@ def Run_test(tests):
 test = []
 
 
-for i in range(50):
-    test.append(10+2*i)
+for i in range(15):
+    test.append(15+2*i)
 
 Run_test(test)
             
