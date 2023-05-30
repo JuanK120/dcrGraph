@@ -1,0 +1,35 @@
+events={dummyEv,evnt0,evnt1,evnt2};
+InitialM =[|
+    false,false,false|
+    false,true,false|
+    false,false,true|
+    false,true,false
+|];
+Act ={dummyAct,act0,act1,act2};
+numConditions =0;
+conditions =  [||];
+numResponses =1;
+responses =[|
+    evnt2,evnt0        
+|];
+numInclusions =2;
+inclusions =[|
+    evnt0,evnt1|
+    evnt2,evnt0
+    
+|];
+numExclusions =2;
+exclusions =[|
+    evnt2,evnt1|
+    evnt1,evnt0
+|];
+l = [dummyAct,act0,act1,act2];
+feats={costs,time,scales};
+agg = [sumVal,sumVal,sumVal];
+cost = [|
+     0,0,0|
+     1,1,1|
+     1,1,1|
+     1,1,1
+    |];
+K=4;

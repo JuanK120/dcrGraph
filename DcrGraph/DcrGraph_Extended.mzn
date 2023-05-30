@@ -180,12 +180,20 @@ constraint forall(index in 2..K+1)(if trace[index-1] != events[1] then
 % if there is no Response relation trigered by
 % executing the event trace[i], then the pending
 % marking M[i+1,...,...] is the same as the previous one   
-constraint forall(index in 2..K+1)(if trace[index-1] != events[1] then 
-                                    forall(i in events where 
-                                              not(is_contained([trace[index-1],i],responses,numResponses))
-                                           )(
-                                               M[index,i,pending]=M[index-1,i,pending]  
-                                           ) endif);
+constraint forall (index in 2..K+1)(
+  if trace[index-1] != events[1] then
+    forall(i in events where not(is_contained([trace[index-1],i], responses, numResponses)))(
+      M[index, i, pending] = M[index-1, i, pending] \/ M[index-1, i, included]
+    )
+  endif
+);
+
+% constraint forall(index in 2..K+1)(if trace[index-1] != events[1] then 
+%                                     forall(i in events where 
+%                                               not(is_contained([trace[index-1],i],responses,numResponses))
+%                                            )(
+%                                                M[index,i,pending]=M[index-1,i,pending]  
+%                                            ) endif);
                          
 % for all other events that are not trace[i],
 % the executed marking is the same as the previous one                   
