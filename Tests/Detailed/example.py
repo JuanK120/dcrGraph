@@ -42,6 +42,17 @@ def getdataset(action):
                     d[k].append(v)
     return d
 
+def mergedatasets():
+    dfCnd=pd.DataFrame.from_dict(getdataset('conditions'))
+    dfRes=pd.DataFrame.from_dict(getdataset('responses'))
+    dfEv=pd.DataFrame.from_dict(getdataset('events'))
+    dfK=pd.DataFrame.from_dict(getdataset('k'))
+    dfFts=pd.DataFrame.from_dict(getdataset('feats'))
+    dfIn=pd.DataFrame.from_dict(getdataset('inclusions'))
+    dfEx=pd.DataFrame.from_dict(getdataset('exclusions'))
+    dfs= [dfCnd,dfRes,dfEv,dfK,dfFts,dfIn,dfEx]
+    mergedDf = pd.concat(dfs)
+    mergedDf.to_csv('mergedData.csv')
 
 """
 getGlobalCSV(action) created the global CSV file associated with the tests in the different subfolders
@@ -90,7 +101,7 @@ def getGlobalCSV(action,plotfeat='totalTime',abreviation='k'):
 
     plt.figure()
 
-    plt.ylim(0, 0.5)
+    plt.ylim(0, 280)
     #plt.yscale('log')
     g = sns.boxplot( x=df[conffeat],y=df[plotfeat])
     g.set(ylabel=yLabel, xlabel= xLabel)
@@ -111,10 +122,10 @@ def getGlobalCSV(action,plotfeat='totalTime',abreviation='k'):
 #getGlobalCSV('events', plotfeat='solveTime',abreviation='Ev')
 #getGlobalCSV('events', plotfeat='totalTime',abreviation='Ev')
 #getGlobalCSV('feats', plotfeat='nodes',abreviation='Ft')
-getGlobalCSV('feats', plotfeat='solveTime',abreviation='Ft')
+#getGlobalCSV('feats', plotfeat='solveTime',abreviation='Ft')
 #getGlobalCSV('feats', plotfeat='totalTime',abreviation='Ft')
 #getGlobalCSV('k', plotfeat='nodes',abreviation='k')
-getGlobalCSV('k', plotfeat='solveTime',abreviation='k')
+#getGlobalCSV('k', plotfeat='solveTime',abreviation='k')
 #getGlobalCSV('k', plotfeat='totalTime',abreviation='k')
 #getGlobalCSV('inclusions', plotfeat='nodes',abreviation='In')
 #getGlobalCSV('inclusions', plotfeat='solveTime',abreviation='In')
@@ -122,3 +133,6 @@ getGlobalCSV('k', plotfeat='solveTime',abreviation='k')
 #getGlobalCSV('exclusions', plotfeat='nodes',abreviation='Ex')
 #getGlobalCSV('exclusions', plotfeat='solveTime',abreviation='Ex')
 #getGlobalCSV('exclusions', plotfeat='totalTime',abreviation='Ex')
+
+
+mergedatasets()

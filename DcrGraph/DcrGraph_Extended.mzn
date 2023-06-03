@@ -183,7 +183,7 @@ constraint forall(index in 2..K+1)(if trace[index-1] != events[1] then
 constraint forall (index in 2..K+1)(
   if trace[index-1] != events[1] then
     forall(i in events where not(is_contained([trace[index-1],i], responses, numResponses)))(
-      M[index, i, pending] = M[index-1, i, pending] \/ M[index-1, i, included]
+      M[index, i, pending] = M[index-1, i, pending] %\/ M[index-1, i, included]
     )
   endif
 );
