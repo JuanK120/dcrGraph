@@ -130,7 +130,7 @@ def createCatPlot(log=False,  plotfeat='solveTime'):
     sns.set(font_scale=2.4)
 
     g = sns.catplot(x='value', y=plotfeat,
-                    row='conffeat', #row_order=['k', 'Ev', 'Ft', 'Cnd', 'Res', 'In', 'Ex'], 
+                    row='conffeat', 
                     data=df,
                     kind="box", aspect=3)
 
@@ -140,18 +140,6 @@ def createCatPlot(log=False,  plotfeat='solveTime'):
     g.set_axis_labels("Number of actions", (plotfeat +
                       " (Sec)" if plotfeat == 'nodes' else plotfeat+" (Sec)"))
 
-    # g.fig.subplots_adjust(top=1.25, bottom=0)  # this is for gecode
-    # axes = g.axes.flatten()
-    # for gene in [0,1,2,3,4,5]:
-    #     axes[gene*9].set_title(genes[gene]+", none")
-    #     axes[gene*9+1].set_title(genes[gene]+", AAS")
-    #     axes[gene*9+2].set_title(genes[gene]+", wAAS")
-    #     axes[gene*9+3].set_title(genes[gene]+", MAS")
-    #     axes[gene*9+4].set_title(genes[gene]+", wMAS")
-    #     axes[gene*9+5].set_title(genes[gene]+", TAS")
-    #     axes[gene*9+6].set_title(genes[gene]+", wTAS")
-    #     axes[gene*9+7].set_title(genes[gene]+", MPAS")
-    #     axes[gene*9+8].set_title(genes[gene]+", wMPAS")
 
     dfn = ('log_' if log else '')+'catPlot.pdf'
     plt.savefig(dfn, bbox_inches='tight')
