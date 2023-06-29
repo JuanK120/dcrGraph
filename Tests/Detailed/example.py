@@ -137,11 +137,10 @@ def createCatPlot(log=False,  plotfeat='solveTime'):
     if log:
         g.set(yscale="log")
 
-    g.set_axis_labels("Number of actions", (plotfeat +
-                      " (Sec)" if plotfeat == 'nodes' else plotfeat+" (Sec)"))
+    g.set_axis_labels("Number of actions", (plotfeat if plotfeat == 'nodes' else plotfeat+" (Sec)"))
 
 
-    dfn = ('log_' if log else '')+'catPlot.pdf'
+    dfn = ('log_' if log else '')+plotfeat+"_"+'catPlot.pdf'
     plt.savefig(dfn, bbox_inches='tight')
     plt.clf()
     plt.close()
@@ -149,6 +148,8 @@ def createCatPlot(log=False,  plotfeat='solveTime'):
 
 mergedatasets()
 createCatPlot(log=True,  plotfeat='solveTime')
+createCatPlot(log=True,  plotfeat='totalTime')
+createCatPlot(log=True,  plotfeat='nodes')
 
 
 #getGlobalCSV('exclusions', plotfeat='nodes')
