@@ -1,0 +1,14 @@
+events = {'dummyEv', 'evnt0', 'evnt1', 'evnt2', 'evnt3', 'evnt4', 'evnt5', 'evnt6', 'evnt7', 'evnt8', 'evnt9', 'evnt10', 'evnt11', 'evnt12', 'evnt13', 'evnt14'};
+Act = {'dummyAct', 'act0', 'act1', 'act2', 'act3', 'act4', 'act5', 'act6', 'act7', 'act8', 'act9', 'act10', 'act11', 'act12', 'act13', 'act14'};
+K = 17;
+numberOfSolutions = 2 ;
+numberOfFeats = 17;
+traces = [|
+    'evnt6', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv'|
+    'evnt7', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv', 'dummyEv'
+    |];
+alphas = [|
+    0, 58, 21, 43, 5, 54, 44, 5, 59, 96, 5, 50, 46, 55, 39, 67, 4|
+    0, 29, 88, 76, 99, 69, 72, 79, 35, 18, 47, 48, 47, 97, 3, 94, 59
+    |]; 
+l = ['dummyAct', 'act11', 'act0', 'act13', 'act4', 'act8', 'act5', 'act14', 'act11', 'act6', 'act11', 'act10', 'act7', 'act5', 'act2', 'act5']

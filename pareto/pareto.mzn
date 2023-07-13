@@ -37,55 +37,31 @@ array [events] of Act: l;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %Trace pertaining to the pareto frontier
-array [1..K] of var events:paretoOptimalTrace;
-
-array [1..numberOfFeats] of var int:paretoOptimalAlpha;
-
-array [1..K] of var Act:ActsOfTrace;
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%% Predicates and functions %%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-% PREDICATE is_in_alphas
-% determines if an alpha is in the given array of alphas,
-% also makes sure that its corresponding trace is also assigned
-% on the given array.
-% -- alphas is the array of alphas we ant to search
-% -- alpha is the given alpha we want to analize
-% -- traces is the given array of traces associated with each alpha
-% -- trace is the the trace in which we want to allocate the alpha's
-%    associated trace
-predicate is_in_alphas(array [1..numberOfSolutions,1..numberOfFeats] of int:alphas,
-                       array [1..numberOfFeats] of var int:alpha,
-                       array [1..numberOfSolutions,1..K] of events:traces, 
-                       array [1..K] of var events:trace)=
-       exists(i in 1..numberOfSolutions)(
-        forall(j in 1..numberOfFeats)(alphas[i,j]=alpha[j]) /\ 
-         forall(n in 1..K)(traces[i,n]=trace[n])
-          
-       );
+array [1..numberOfSolutions] of var bool:paretoOptimalTraces;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%% Constraints %%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%constraint is_in_alphas(alphas,paretoOptimalAlpha,traces,paretoOptimalTrace);
-constraint exists(i in 1.. numberOfSolutions)(
-    forall(j in 1..numberOfFeats)(paretoOptimalAlpha[j]=alphas[i,j])
-  );
+%constraint is_in_alphas(alphas,paretoOptimalAlpha,traces,paretoOptimalTrace); 
+
+% Constraint to ensure at least one solution is marked as Pareto optimal
+constraint exists(i in 1..numberOfSolutions)(paretoOptimalTraces[i]);
 
 % For each pair of solutions in the array
-constraint forall(i in 1..numberOfSolutions)(
+constraint (forall(i in 1..numberOfSolutions where paretoOptimalTraces[i]=true,
+                  j in 1..numberOfSolutions where i!=j)(
   % Implement Pareto dominance relation
    forall(k in 1..numberOfFeats) (
-    paretoOptimalAlpha[k] >= alphas[i,k]
+    alphas[i,k] <= alphas[j,k]
   ) /\ exists(k in 1..numberOfFeats) (
-    paretoOptimalAlpha[k] > alphas[i,k]
+    alphas[i,k] < alphas[j,k]
   )
-);
+)) \/ forall(k in 1..numberOfFeats)((exists(i in 1..numberOfSolutions where paretoOptimalTraces[i]=true,
+                  j in 1..numberOfSolutions where i!=j)(
+  % Implement Pareto dominance relation
+   alphas[i,k]<=alphas[j,k]
+)));
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

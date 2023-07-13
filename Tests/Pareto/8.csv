@@ -1,0 +1,2 @@
+k,Events,Feats,Cond,Res,Inc,Exc,numberOfOptimalTraces,supersetPareto,modelsExecutionTime,exploredNodes,paretoExecutionTime,paretoExploredNodes,totalTime,flatTimeModel,flatTimePareto
+8,14,16,16,13,7,14,1,8,2.753,74960,0.0,8,9.119195,0.228899,0.082821

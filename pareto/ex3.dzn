@@ -1,0 +1,54 @@
+K = 8;
+feats = ["feat0", "feat1", "feat2", "feat3", "feat4", "feat5", "feat6", "feat7", "feat8", "feat9", "feat10", "feat11", "feat12", "feat13", "feat14", "feat15", "feat16", "feat17"];
+events = ["dummyEv", "evnt0", "evnt1", "evnt2", "evnt3", "evnt4", "evnt5", "evnt6"];
+InitialM = [| false, false, false |
+             false, true, false |
+             false, true, false |
+             false, true, false |
+             false, true, false |
+             false, true, false |
+             false, true, false |
+             false, true, false |];
+Act = ["dummyAct", "act0", "act1", "act2", "act3", "act4", "act5", "act6"];
+conditions = [| "evnt3", "evnt1" |
+               "evnt6", "evnt4" |];
+responses = [| "evnt0", "evnt4" |
+              "evnt5", "evnt3" |
+              "evnt3", "evnt6" |
+              "evnt2", "evnt1" |
+              "evnt2", "evnt5" |
+              "evnt1", "evnt2" |
+              "evnt2", "evnt0" |
+              "evnt3", "evnt1" |
+              "evnt4", "evnt0" |
+              "evnt0", "evnt1" |
+              "evnt6", "evnt2" |
+              "evnt5", "evnt4" |
+              "evnt2", "evnt4" |
+              "evnt6", "evnt1" |
+              "evnt4", "evnt6" |
+              "evnt4", "evnt5" |
+              "evnt5", "evnt6" |
+              "evnt0", "evnt2" |];
+inclusions = [| "evnt0", "evnt1" |
+                "evnt5", "evnt3" |
+                "evnt6", "evnt1" |
+                "evnt4", "evnt6" |];
+exclusions = [| "evnt4", "evnt1" |
+                "evnt4", "evnt5" |
+                "evnt1", "evnt2" |
+                "evnt5", "evnt2" |
+                "evnt3", "evnt1" |
+                "evnt0", "evnt6" |
+                "evnt3", "evnt6" |];
+l = ["dummyAct", "act3", "act4", "act2", "act3", "act0", "act6", "act3"];
+agg = ["sumVal", "sumVal", "sumVal", "sumVal", "sumVal", "sumVal", "sumVal", "sumVal", "sumVal", "sumVal", "sumVal", "sumVal", "sumVal", "sumVal", "sumVal", "sumVal", "sumVal", "sumVal"];
+cost = [| 0, 65, 6, 93, 1, 9, 38, 55, 30, 44, 72, 40, 28, 74, 88, 92, 93, 20 |
+          0, 19, 90, 6, 11, 45, 97, 38, 59, 49, 15, 8, 28, 78, 38, 22, 67, 93 |
+          0, 62, 72, 12, 97, 99, 90, 10, 6, 27, 93, 82, 73, 61, 76, 3, 77, 55 |
+          0, 55, 59, 98, 41, 25, 12, 41, 43, 49, 66, 65, 40, 66, 42, 53, 26, 38 |
+          0, 73, 75, 13, 68, 66, 20, 58, 65, 43, 97, 87, 54, 54, 62, 69, 22, 39 |
+          0, 16, 45, 84, 93, 57, 14, 70, 14, 28, 42, 60, 38, 12, 89, 97, 74, 21 |
+          0, 38, 42, 33, 43, 69, 44, 89, 90, 54, 82, 94, 83, 72, 44, 38, 24, 20 |
+          0, 38, 58, 14, 57, 47, 70, 38, 46, 10, 38, 43, 56, 4, 28, 26, 4, 98 |];
+

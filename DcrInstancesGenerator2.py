@@ -1,4 +1,5 @@
 from minizinc import Instance, Model, Solver, Status, Result
+import random
 
 
 ### Load Dcr Graph model from file
@@ -7,7 +8,7 @@ generatorModel = Model("./Tests/Generator/DcrGenerator.mzn")
 ### Load MiniZinc solver
 gecode = Solver.lookup("gecode")
 
-import random
+
 
 
 def generate(k,events,feats,conditions,responses,inclusions,exclusions):

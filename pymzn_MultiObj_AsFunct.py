@@ -68,6 +68,8 @@ def solveExtendedDcrGraph(extendedGraph):
     modelsExecutionTime = 0
     exploredNodes = 0
     totalTimeStart = datetime.now()
+    paretoModelExecutionTime = 0
+    paretoExploredNodes = 0
 
     ### run instance
 
@@ -84,19 +86,23 @@ def solveExtendedDcrGraph(extendedGraph):
     actsOfTrace=[]
     while dcrResult.status == Status.SATISFIED:
         modelsExecutionTime += dcrResult.statistics["solveTime"].total_seconds()
+        modelsflatTime = dcrResult.statistics["flatTime"].total_seconds()
         exploredNodes += dcrResult.statistics["nodes"]
         traces.append(dcrResult["trace"])
         #print(dcrResult["trace"])
         actsOfTrace.append(dcrResult["ActsOfTrace"])
         #print("Acts : ", dcrResult["ActsOfTrace"])
         alphas.append(dcrResult["alpha"])    
-        #print(dcrResult["alpha"])    
+        print(dcrResult["alpha"])    
         with dcrInstance.branch() as child:
-            constraintBetterFeat = f"constraint (alpha[{fts[0]}] < {dcrResult['alpha'][0]})"
-            for i in range(len(fts)-1):
-                constraintBetterFeat += f"\/ (alpha[{fts[i+1]}] < {dcrResult['alpha'][i+1]})"                
-            constraintBetterFeat += ";\n "
-            child.add_string(constraintBetterFeat)
+            #print(fts[0],"  < ")
+            #print(dcrResult["alpha"])
+
+            #constraintBetterFeat = f"constraint (alpha[{fts[0]}] < {dcrResult['alpha'][0]})"
+            #for i in range(len(fts)-1):
+            #    constraintBetterFeat += f" \/ (alpha[{fts[i+1]}] < {dcrResult['alpha'][i+1]})"                
+            #constraintBetterFeat += ";\n "
+            #child.add_string(constraintBetterFeat)
             child.add_string(f"constraint trace != {dcrResult['trace']}; \n")
             dcrResult = child.solve()
             if dcrResult.solution is not None:
@@ -116,10 +122,24 @@ def solveExtendedDcrGraph(extendedGraph):
     paretoInstance["alphas"]=alphas
     paretoInstance["l"]=extendedGraph["l"]
 
-    #print("Calculating Pareto Front with minizinc model")
+    dictret = {}
+    dictret["events"]=extendedGraph["events"]
+    dictret["Act"]=extendedGraph["Act"]
+    dictret["K"]=extendedGraph["K"]
+    dictret["numberOfSolutions"]=len(traces)
+    dictret["numberOfFeats"]=len(fts)
+    dictret["traces"]=traces
+    dictret["alphas"]=alphas
+    dictret["l"]=extendedGraph["l"]
 
+
+    #print("Calculating Pareto Front with minizinc model")
     ### Solving pareto model
     paretoSolution = paretoInstance.solve()
+    supersetPareto = len(traces)
+    paretoModelExecutionTime = paretoSolution.statistics["solveTime"].total_seconds()
+    paretoExploredNodes = paretoSolution.statistics["nodes"]
+    paretoflatTime = paretoSolution.statistics["flatTime"].total_seconds()
 
     modelsExecutionTime += paretoSolution.statistics["solveTime"].total_seconds()
     exploredNodes += paretoSolution.statistics["nodes"]
@@ -131,6 +151,7 @@ def solveExtendedDcrGraph(extendedGraph):
     actionsOfTrace = []
     costOfTrace=[]
 
+    
     for i in range(len(traces)):
         if paretoSolution["paretoOptimalTraces"][i] == True:
             paretoOptimalTraces.append(traces[i])
@@ -146,8 +167,15 @@ def solveExtendedDcrGraph(extendedGraph):
     solution["actionsOfTrace"] = actionsOfTrace
     solution["costOfTrace"] = costOfTrace
     solution["modelsExecutionTime"] = modelsExecutionTime
-    solution["exploredNodes"] = exploredNodes     
-    solution["totalTime"] = (datetime.now()-totalTimeStart).total_seconds()  
+    solution["exploredNodes"] = exploredNodes   
+    solution["tracesBeforePareto"] = traces
+    solution["CostsBerforePareto"] = alphas
+    solution["paretoExecutionTime"] = paretoModelExecutionTime
+    solution["paretoExploredNodes"] = paretoExploredNodes
+    solution["supersetPareto"] = supersetPareto
+    solution["totalTime"] = (datetime.now()-totalTimeStart).total_seconds() 
+    solution["flatTimeModel"] = modelsflatTime 
+    solution["flatTimePareto"] = paretoflatTime
 
     return solution           
 

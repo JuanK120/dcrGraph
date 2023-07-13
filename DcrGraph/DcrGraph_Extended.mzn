@@ -211,7 +211,8 @@ constraint forall(index in 1..K)(if trace[index] != events[1] then is_enabled(in
 % Accepting marking, the condition that must be true for a trace to be valid,
 % it must happen that at the end of the trace, there must not be ane event
 % that is both pending and included at the same time.
-constraint not(exists(index in events)(M[lastEvent+1,index,included]==true /\ M[lastEvent+1,index,pending]==true));
+constraint not(exists(index in events)(M[lastEvent+1,index,included]==true /\ M[lastEvent+1,index,pending]==true 
+              /\ not(M[lastEvent+1,index,executed]==true)));
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
