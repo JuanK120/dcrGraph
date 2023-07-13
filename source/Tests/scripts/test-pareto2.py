@@ -2,7 +2,7 @@ import csv
 import os
 import ast
 import pymzn_MultiObj_AsFunct as pymzn_ExtendedDCrGraph
-import DcrInstancesGenerator2 as dcrGenerator
+import Tests.Generator.DcrInstancesGenerator2 as dcrGenerator
 import random
 def randnum() :
     return random.randrange(2,20)

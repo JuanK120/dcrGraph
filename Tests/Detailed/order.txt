@@ -1,1 +1,0 @@
-K, events,  Feats,  Conditions,  Responses,  inclusions,  exclusions

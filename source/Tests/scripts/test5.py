@@ -3,20 +3,21 @@ import os
 import threading
 import concurrent.futures
 import pymzn_MultiObj_AsFunct as pymzn_ExtendedDCrGraph
-import DcrInstancesGenerator2 as dcrGenerator
+import Tests.Generator.DcrInstancesGenerator2 as dcrGenerator
 
 def Run_test(tests):
 
-    #inclusions
-    for o in tests:
-        j=15;l=10;m=10;n=10;i=10;p=10
+
+    #Responses
+    for n in tests:
+        j=45;l=10;m=10;i=10;o=10;p=10
         newDir = "k"+str(i)+", Ev"+str(j)+", Ft"+str(l)+", Cnd"+str(m)+", Res"+str(n)+", In"+str(o)+", Ex"+str(p)
         print(newDir)
-        if not os.path.exists(os.path.join("Tests/Detailed/inclusions",newDir)):
-            os.mkdir(os.path.join("Tests/Detailed/inclusions",newDir))
-        csv_file_path = os.path.join("Tests/Detailed/inclusions", newDir, "data.csv")
+        if not os.path.exists(os.path.join("Tests/Detailed/responses",newDir)):
+            os.mkdir(os.path.join("Tests/Detailed/responses",newDir))
+        csv_file_path = os.path.join("Tests/Detailed/responses", newDir, "data.csv")
         dataToStore =["numberOfOptimalTraces","modelsExecutionTime","exploredNodes","totalTime"]
-        with open(os.path.join("Tests/Detailed/inclusions", "avgs.csv"), 'w', newline='') as avgs_file:
+        with open(os.path.join("Tests/Detailed/responses", "avgs.csv"), 'w', newline='') as avgs_file:
             with open(csv_file_path, 'w', newline='') as csv_file:
                 writer = csv.writer(avgs_file)
                 writer.writerow(dataToStore)
@@ -24,9 +25,9 @@ def Run_test(tests):
                 csvWriter = csv.writer(csv_file)
                 validGraph=0
                 csvWriter.writerow(dataToStore)
-                with open(os.path.join("Tests/Detailed/inclusions",newDir, "tests.txt"), 'w', newline='') as tests_file:
+                with open(os.path.join("Tests/Detailed/responses",newDir, "tests.txt"), 'w', newline='') as tests_file:
                     graphs = ""
-                    while (validGraph<30):
+                    while (validGraph<5):
                         model =  dcrGenerator.generate(i,j,l,m,n,o,p)
                         #print(model)
                         result = pymzn_ExtendedDCrGraph.solveExtendedDcrGraph(model)
@@ -57,7 +58,9 @@ def Run_test(tests):
 
 test = []
 
+
 for i in range(15):
     test.append(15+2*i)
 
 Run_test(test)
+            
