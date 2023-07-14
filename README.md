@@ -86,8 +86,11 @@
   ## Credits
 
   Juan F. Diaz - juanfco.diaz@correounivalle.edu.co
+  
   Hugo A. López - hulo@dtu.dk
+  
   Luis Quesada - luis.quesada@insight-centre.org
+  
   Juan C. Rosero - juan.camilo.rosero@correounivalle.edu.co
 
   
