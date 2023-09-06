@@ -72,7 +72,7 @@ exclusions =[|
     evnt8,evnt10|
     evnt10,evnt8
 |];
-l = [dummyAct,CphToLhr,CphToMad,LhrToMia,LhrToJfk,MadToLhr,MiaToClo,MiaToPty,PtyToClo,BogToClo,JfkToBog];
+l = [dummyAct,CphToLhr,CphToMad,MadToLhr,LhrToJfk,LhrToMia,MiaToClo,MiaToPty,PtyToClo,JfkToBog,BogToClo];
 feats={costs,time,scales};
 agg = [sumVal,sumVal,lenght];
 cost = [|

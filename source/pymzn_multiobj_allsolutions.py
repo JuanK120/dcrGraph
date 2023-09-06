@@ -98,11 +98,11 @@ def solveExtendedDcrGraph(extendedGraph):
             #print(fts[0],"  < ")
             #print(dcrResult["alpha"])
 
-            constraintBetterFeat = f"constraint (alpha[{fts[0]}] < {dcrResult['alpha'][0]})"
-            for i in range(len(fts)-1):
-                constraintBetterFeat += f" \/ (alpha[{fts[i+1]}] < {dcrResult['alpha'][i+1]})"                
-            constraintBetterFeat += ";\n "
-            child.add_string(constraintBetterFeat)
+            #constraintBetterFeat = f"constraint (alpha[{fts[0]}] < {dcrResult['alpha'][0]})"
+            #for i in range(len(fts)-1):
+            #    constraintBetterFeat += f" \/ (alpha[{fts[i+1]}] < {dcrResult['alpha'][i+1]})"                
+            #constraintBetterFeat += ";\n "
+            #child.add_string(constraintBetterFeat)
             child.add_string(f"constraint trace != {dcrResult['trace']}; \n")
             dcrResult = child.solve()
             if dcrResult.solution is not None:
@@ -178,7 +178,3 @@ def solveExtendedDcrGraph(extendedGraph):
     solution["flatTimePareto"] = paretoflatTime
 
     return solution           
-
-    #print("Calculating Pareto Front with pyhon code")
-    #print("in python")
-    #print(cull(alphas, dominates)[0])   
