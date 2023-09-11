@@ -84,7 +84,8 @@ def solveExtendedDcrGraph(extendedGraph):
     traces = []
     alphas=[]
     actsOfTrace=[]
-    while dcrResult.status == Status.SATISFIED:
+    count=1
+    while dcrResult.status == Status.SATISFIED and count < 5250:
         modelsExecutionTime += dcrResult.statistics["solveTime"].total_seconds()
         modelsflatTime = dcrResult.statistics["flatTime"].total_seconds()
         exploredNodes += dcrResult.statistics["nodes"]
@@ -92,7 +93,9 @@ def solveExtendedDcrGraph(extendedGraph):
         #print(dcrResult["trace"])
         actsOfTrace.append(dcrResult["ActsOfTrace"])
         #print("Acts : ", dcrResult["ActsOfTrace"])
-        alphas.append(dcrResult["alpha"])    
+        alphas.append(dcrResult["alpha"])
+        print(count) 
+        count=count+1   
         print(dcrResult["alpha"])    
         with dcrInstance.branch() as child:
             #print(fts[0],"  < ")
@@ -107,6 +110,7 @@ def solveExtendedDcrGraph(extendedGraph):
             dcrResult = child.solve()
             if dcrResult.solution is not None:
                 dcrInstance = child
+                
             #print (dcrResult.statistics["solveTime"])
 
     ### Create an Instance for the Pareto model
